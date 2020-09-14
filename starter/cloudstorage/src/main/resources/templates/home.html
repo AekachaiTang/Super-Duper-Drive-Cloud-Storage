@@ -14,6 +14,11 @@
             <button type="submit" class="btn btn-secondary float-right" id="logoutButton" >Logout</button>
         </form>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <div th:if="${message}" th:text="${message}" class="alert alert-success" role="alert"></div>
+        </div>
+    </div>
     <div id="contentDiv" style="clear: right;">
         <nav style="clear: right;">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">

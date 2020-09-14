@@ -37,7 +37,7 @@ public class NoteController {
                 noteService.createNote(note);
             else
                 noteService.updateNote(note);
-
+            redirectAttributes.addFlashAttribute("message", "Create Note Success !");
             return "redirect:/home";
         } catch (Exception e) {
             redirectAttributes.addAttribute("errorMessage", e.getCause().getMessage());
@@ -50,6 +50,7 @@ public class NoteController {
         try {
             Integer userId = note.getUserId();
             noteService.removeNote(note);
+            redirectAttributes.addFlashAttribute("message", "Note Already Remove !");
             return "redirect:/home";
         } catch (Exception e) {
             redirectAttributes.addAttribute("errorMessage", e.getCause().getMessage());

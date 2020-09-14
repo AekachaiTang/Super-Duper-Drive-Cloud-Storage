@@ -58,7 +58,7 @@ class CloudStorageApplicationTests {
 
 		driver.get(baseURL + "/signup");
 		Signup signup = new Signup(driver);
-		signup.signup("sample", "1234", username, password);
+		signup.signup("aekachai", "tang", username, password);
 	}
 	public void login(String username,String password){
 		driver.get(baseURL + "/login");

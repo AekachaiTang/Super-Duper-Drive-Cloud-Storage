@@ -37,7 +37,7 @@ public class CredentialController {
                 credentailService.createCredential(credential);
             else
                 credentailService.updateCredential(credential);
-
+            redirectAttributes.addFlashAttribute("message", "Create Credential Success !");
             return "redirect:/home";
         } catch (Exception e) {
             redirectAttributes.addAttribute("errorMessage", e.getCause().getMessage());
@@ -49,7 +49,7 @@ public class CredentialController {
     public String removeNote(@ModelAttribute("credential") Credentials credential, RedirectAttributes redirectAttributes) {
         try {
             credentailService.removeCredential(credential.getCredentialId());
-
+            redirectAttributes.addFlashAttribute("message", "Credential Already Remove !");
             return "redirect:/home";
         } catch (Exception e) {
             redirectAttributes.addAttribute("errorMessage", e.getCause().getMessage());

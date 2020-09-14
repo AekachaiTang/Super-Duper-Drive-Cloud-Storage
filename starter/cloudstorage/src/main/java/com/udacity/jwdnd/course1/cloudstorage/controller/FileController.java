@@ -58,6 +58,7 @@ public class FileController {
             Users appUser = usersService.getUser(authentication.getName());
             Integer userId = appUser.getUserid();
             fileService.uploadFile(fileToUpload, userId);
+            redirectAttributes.addFlashAttribute("message", "File Upload Success");
             return "redirect:/home";
         } catch (Exception e) {
             redirectAttributes.addAttribute("errorMessage", e.getCause().getMessage());
@@ -71,7 +72,7 @@ public class FileController {
     public String removeNote(@ModelAttribute("file") Files file, RedirectAttributes redirectAttributes) {
         try {
             fileService.removeFile(file.getFileId());
-
+            redirectAttributes.addFlashAttribute("message", "File Already Remove !");
             return "redirect:/home";
         } catch (Exception e) {
             redirectAttributes.addAttribute("errorMessage", e.getCause().getMessage());
