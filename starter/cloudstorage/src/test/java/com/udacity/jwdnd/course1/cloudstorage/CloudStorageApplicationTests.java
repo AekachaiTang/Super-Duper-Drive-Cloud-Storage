@@ -38,19 +38,19 @@ class CloudStorageApplicationTests {
 	@Test
 	public void testGetLoginPage() {
 		driver.get("http://localhost:" + this.port + "/login");
-		Assertions.assertEquals("Login", driver.getTitle());
+		Assertions.assertEquals("Login Page", driver.getTitle());
 	}
 
 	@Test
 	public void testUnauthorizedUserOnlyViewLoginAndSignUpPages() {
 		driver.get(baseURL + "/login");
-		Assertions.assertEquals("Login", driver.getTitle());
+		Assertions.assertEquals("Login Page", driver.getTitle());
 		driver.get(baseURL + "/signup");
 		Assertions.assertEquals("Sign Up", driver.getTitle());
 		driver.get(baseURL + "/home");
 		Assertions.assertNotEquals("Home", driver.getTitle());
-		driver.get(baseURL + "/result");
-		Assertions.assertNotEquals("Result", driver.getTitle());
+		/*driver.get(baseURL + "/result");
+		Assertions.assertNotEquals("Result", driver.getTitle());*/
 	}
 
 
@@ -64,7 +64,6 @@ class CloudStorageApplicationTests {
 		driver.get(baseURL + "/login");
 		Login login = new Login(driver);
 		login.login(username, password);
-
 	}
 
 	@Test
@@ -101,10 +100,6 @@ class CloudStorageApplicationTests {
 		homePage.openNewNoteModal();
 
 		homePage.submitNote(newNoteTitle,newNoteDescription);
-		Assertions.assertEquals(baseURL + "/result?success", driver.getCurrentUrl());
-
-		Result resultPage = new Result(driver);
-		resultPage.successReturnHome();
 
 		Assertions.assertEquals("Home", driver.getTitle());
 		homePage.chooseNoteTab();
@@ -132,12 +127,9 @@ class CloudStorageApplicationTests {
 
 		home.submitNote(newNoteTitle,newNoteDescription);
 
-		Result result = new Result(driver);
-		result.successReturnHome();
 		home.chooseNoteTab();
 		home.openEditNoteModal();
 		home.submitNote(editedNoteTitle,editedNoteDescription);
-		result.successReturnHome();
 		home.chooseNoteTab();
 		Assertions.assertEquals(editedNoteTitle, home.getNotTitle()) ;
 		home.openDeleteNoteModal();
@@ -161,17 +153,98 @@ class CloudStorageApplicationTests {
 
 		home.submitNote(newNoteTitle,newNoteDescription);
 
-		Result result = new Result(driver);
-		result.successReturnHome();
 		home.chooseNoteTab();
 		home.openDeleteNoteModal();
 		home.submitDeleteNote();
-		Assertions.assertEquals(baseURL + "/result?success", driver.getCurrentUrl());
-		result.successReturnHome();
 		Assertions.assertEquals("Home", driver.getTitle());
 		home.chooseNoteTab();
 		Assertions.assertTrue(home.getNotes().isEmpty());
 	}
 
+	@Test
+	public void testNewCredentialCreatedAndDisplayed(){
+		String username = "sample";
+		String password = "1234";
+
+		String url = "New url";
+
+
+		signup(username,password);
+		login(username,password);
+		Assertions.assertEquals("Home", driver.getTitle());
+
+		Home homePage = new Home(driver);
+		homePage.chooseCredentialTab();
+		homePage.openNewCredentialModal();
+
+		homePage.submitCredential(url,username,password);
+//		Assertions.assertEquals(baseURL + "/home?success", driver.getCurrentUrl());
+
+		//Result resultPage = new Result(driver);
+		//resultPage.successReturnHome();
+
+		//Assertions.assertEquals("Home", driver.getTitle());
+		homePage.chooseCredentialTab();
+		Assertions.assertEquals(url, homePage.getCredentialUrl()) ;
+		homePage.openDeleteCredentialModal();
+		homePage.submitDeleteCredential();
+
+	}
+
+	@Test
+	public void testCurrentCredentialEditedAndEditedVersionDisplayed(){
+		String username = "sample";
+		String password = "1234";
+
+		String url= "New url";
+		String editurl = "edit url";
+		String editusername ="username";
+		String editpassword ="password";
+
+		signup(username,password);
+		login(username,password);
+		Home home = new Home(driver);
+		home.chooseCredentialTab();
+		home.openNewCredentialModal();
+
+		home.submitCredential(url,username,password);
+
+
+		home.chooseCredentialTab();
+		home.openEditCredentialModal();
+		home.submitCredential(editurl,editusername,editpassword);
+
+		home.chooseCredentialTab();
+		Assertions.assertEquals(editurl, home.getCredentialUrl()) ;
+		home.openDeleteCredentialModal();
+		home.submitDeleteCredential();
+
+	}
+
+	@Test
+	public void testCredentialDeletedAndNoLongerDisplayed(){
+		String username = "sample";
+		String password = "1234";
+
+		String url = "New url";
+
+		signup(username,password);
+		login(username,password);
+		Home home = new Home(driver);
+		home.chooseCredentialTab();
+		home.openNewCredentialModal();
+
+		home.submitCredential(url,username,password);
+
+
+		home.chooseCredentialTab();
+		home.openDeleteCredentialModal();
+		home.submitDeleteCredential();
+		//Assertions.assertEquals(baseURL + "/home?success", driver.getCurrentUrl());
+
+		Assertions.assertEquals("Home", driver.getTitle());
+		home.chooseCredentialTab();
+		Assertions.assertTrue(home.getCredentials().isEmpty());
+	}
 
 }
