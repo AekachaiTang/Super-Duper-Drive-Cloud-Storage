@@ -178,12 +178,7 @@ class CloudStorageApplicationTests {
 		homePage.openNewCredentialModal();
 
 		homePage.submitCredential(url,username,password);
-//		Assertions.assertEquals(baseURL + "/home?success", driver.getCurrentUrl());
-
-		//Result resultPage = new Result(driver);
-		//resultPage.successReturnHome();
-
-		//Assertions.assertEquals("Home", driver.getTitle());
+//
 		homePage.chooseCredentialTab();
 		Assertions.assertEquals(url, homePage.getCredentialUrl()) ;
 		homePage.openDeleteCredentialModal();
@@ -240,8 +235,7 @@ class CloudStorageApplicationTests {
 		home.chooseCredentialTab();
 		home.openDeleteCredentialModal();
 		home.submitDeleteCredential();
-		//Assertions.assertEquals(baseURL + "/home?success", driver.getCurrentUrl());
-
+		
 		Assertions.assertEquals("Home", driver.getTitle());
 		home.chooseCredentialTab();
 		Assertions.assertTrue(home.getCredentials().isEmpty());
