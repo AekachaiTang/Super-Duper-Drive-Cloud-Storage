@@ -235,7 +235,7 @@ class CloudStorageApplicationTests {
 		home.chooseCredentialTab();
 		home.openDeleteCredentialModal();
 		home.submitDeleteCredential();
-		
+
 		Assertions.assertEquals("Home", driver.getTitle());
 		home.chooseCredentialTab();
 		Assertions.assertTrue(home.getCredentials().isEmpty());
